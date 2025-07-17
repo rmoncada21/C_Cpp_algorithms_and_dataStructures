@@ -71,8 +71,26 @@ void agregar_final(Nodo** lista, int dato){
     temporal->siguiente = nuevo_nodo;
 }
 
-// TODO: método para eliminar nodo
 // TODO: método para buscar
+Nodo* buscar_nodo(Nodo* lista, int dato){
+    // int valor = 0;
+    // int* puntero = &valor;
+
+    Nodo* temporal = lista;
+
+    while(temporal != NULL){
+        
+        if(temporal->dato == dato){
+            return temporal;    
+        }
+
+        temporal = temporal->siguiente;
+    }
+    
+    return NULL;
+}
+
+// TODO: método para eliminar nodo
 // TODO: método para liberar memoria
 
 int main(){
@@ -84,6 +102,16 @@ int main(){
     agregar_inicio(&lista, 15);
     agregar_final(&lista, 20);
     mostrar_lista(lista);
+    printf("\n");
+    
+    Nodo* buscar = buscar_nodo(lista, 2);
+    
+    if(buscar){
+        printf("Encontrado: %d \n", buscar->dato);
+    } else {
+        printf("NULL");
+    }
+    
     printf("\n");
 
     // liberar mempria 
