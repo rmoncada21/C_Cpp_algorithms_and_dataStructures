@@ -91,7 +91,48 @@ Nodo* buscar_nodo(Nodo* lista, int dato){
 }
 
 // TODO: método para eliminar nodo
+// Escenarios: primer nodo - ultimo nodo - malcomn
+void eliminar_nodo(Nodo** lista, int dato){
+    Nodo* nodo_actual = *lista;
+    Nodo* nodo_anterior = NULL;
+    
+    
+    // while(nodo_actual->siguiente != NULL) <------> No funciona, no entra al utlimo nodo
+    while(nodo_actual != NULL){                    // Si entra al ultimo nodo
+        if(nodo_actual->dato == dato){
+            // Eliminar un nodo al inicio
+            if(nodo_anterior == NULL){
+                printf("\nEntra - Eliminar primer nodo \n");
+                *lista = nodo_actual->siguiente;   
+            }
+            // nodo malcomn
+            // else if (nodo_anterior != NULL && nodo_actual->siguiente != NULL){
+            else if (nodo_actual->siguiente != NULL){ // nodo malcomn
+                printf("\nEntra - Eliminar malcom \n");
+                nodo_anterior->siguiente = nodo_actual->siguiente;
+            }
+            // ultimo nodo
+            // else if(nodo_anterior != NULL && nodo_actual->siguiente == NULL) {
+            else if(nodo_actual->siguiente == NULL) { // ultimo nodo
+                printf("\nEntra - Eliminar ultimo nodo \n");
+                nodo_anterior->siguiente = NULL;
+            } 
+            free(nodo_actual);
+            return;
+        }
+        nodo_anterior = nodo_actual;
+        nodo_actual = nodo_actual->siguiente; // avanzar al siguiente nodo
+    }
+        
+    printf("\nNO SE ENCONTRÓ EL NODO con el dato: %d \n", dato);
+
+}
+
 // TODO: método para liberar memoria
+// Recorrer lista y liberar nodo unod por uno
+void liberar_memoria(Nodo** lista){
+    return;
+}
 
 int main(){
     Nodo* lista = NULL;
@@ -101,6 +142,10 @@ int main(){
     agregar_inicio(&lista, 10);
     agregar_inicio(&lista, 15);
     agregar_final(&lista, 20);
+    mostrar_lista(lista);   
+    eliminar_nodo(&lista, 15);
+    eliminar_nodo(&lista, 55);
+    printf("\n");
     mostrar_lista(lista);
     printf("\n");
     
@@ -109,11 +154,10 @@ int main(){
     if(buscar){
         printf("Encontrado: %d \n", buscar->dato);
     } else {
-        printf("NULL");
+        printf("NULL: No se encontro");
     }
-    
-    printf("\n");
 
-    // liberar mempria 
+    // liberar memoria
+    // liberar_memoria(&lista);
     return 0;
 }
