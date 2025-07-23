@@ -31,7 +31,7 @@ void agregar_inicio(Nodo** lista, int dato){
     *lista = nodo;
 }
 
-// TODO: método para recorrer/mostrar lista
+// Método para recorrer/mostrar lista
 /*
 Se necesita acceder a todos los nodos, incluyendo el último, que tiene nodo->siguiente == NULL.
 De usarse temporal->siguiente != NULL, nunca se imprimiría el último nodo.
@@ -46,7 +46,7 @@ void mostrar_lista(Nodo* lista){
 
 }
 
-// TODO: método para agregar al final
+// Método para agregar al final
 /*
 No se quiere llegar al último nodo nuevo, se quiere llegar al último nodo actual de la lista.
 Una vez ahí, se hace: temporal->siguiente = nuevo_nodo;
@@ -57,7 +57,7 @@ void agregar_final(Nodo** lista, int dato){
 
     // Asegurarse que la lista no este vacía
     if(*lista==NULL){
-        *lista=nuevo_nodo;
+        *lista = nuevo_nodo;
         return;
     }
 
@@ -71,7 +71,7 @@ void agregar_final(Nodo** lista, int dato){
     temporal->siguiente = nuevo_nodo;
 }
 
-// TODO: método para buscar
+// Método para buscar
 Nodo* buscar_nodo(Nodo* lista, int dato){
     // int valor = 0;
     // int* puntero = &valor;
@@ -90,7 +90,7 @@ Nodo* buscar_nodo(Nodo* lista, int dato){
     return NULL;
 }
 
-// TODO: método para eliminar nodo
+// Método para eliminar nodo
 // Escenarios: primer nodo - ultimo nodo - malcomn
 void eliminar_nodo(Nodo** lista, int dato){
     Nodo* nodo_actual = *lista;
@@ -128,8 +128,8 @@ void eliminar_nodo(Nodo** lista, int dato){
 
 }
 
-// TODO: método para liberar memoria
-// Recorrer lista y liberar nodo unod por uno
+// TODO: Método para liberar memoria
+// Recorrer lista y liberar nodo uno por uno
 void liberar_memoria(Nodo** lista){
     return;
 }
