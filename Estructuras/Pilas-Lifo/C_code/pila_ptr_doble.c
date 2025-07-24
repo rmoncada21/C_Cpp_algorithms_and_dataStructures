@@ -60,8 +60,13 @@ int pop(Nodo_t** pila){
     return valor_eliminado;
 }
 
-// TODO: Liberar PILA
+// Liberar PILA
 void liberar_pila(Nodo_t** pila){
+    
+    while(*pila != NULL){
+        pop(pila);
+    }
+
     return;
 }
 
@@ -90,6 +95,10 @@ int main(){
     mostrar_pila(pila);
     SALTO;
     printf("Nodo eliminado: %d \n", eliminado);
+
+    // Liberar lista
+    liberar_pila(&pila);
+    mostrar_pila(pila);
 
     return 0;
 }
