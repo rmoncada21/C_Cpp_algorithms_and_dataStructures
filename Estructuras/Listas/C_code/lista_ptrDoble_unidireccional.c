@@ -131,6 +131,17 @@ void eliminar_nodo(Nodo** lista, int dato){
 // TODO: Método para liberar memoria
 // Recorrer lista y liberar nodo uno por uno
 void liberar_memoria(Nodo** lista){
+    Nodo* temporal =  *lista;
+
+    while(temporal != NULL){
+        Nodo* actual = temporal;
+
+        temporal =  temporal->siguiente; 
+        free(actual);
+        // actual = NULL; no es necesario.Deja de existir al salir del bucle
+    }
+
+    *lista = NULL;
     return;
 }
 
@@ -146,7 +157,8 @@ int main(){
     eliminar_nodo(&lista, 15);
     eliminar_nodo(&lista, 55);
     printf("\n");
-    mostrar_lista(lista);
+    // mostrar_lista(lista);
+    liberar_memoria(&lista);
     printf("\n");
     
     Nodo* buscar = buscar_nodo(lista, 2);
