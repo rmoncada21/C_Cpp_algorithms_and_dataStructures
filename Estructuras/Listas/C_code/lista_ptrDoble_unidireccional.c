@@ -170,6 +170,6 @@ int main(){
     }
 
     // liberar memoria
-    // liberar_memoria(&lista);
+    liberar_memoria(&lista);
     return 0;
 }
