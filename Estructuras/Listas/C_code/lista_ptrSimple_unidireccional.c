@@ -48,6 +48,28 @@ void mostrar_lista(Lista_t* lista){
     return;
 }
 // TODO: agregar_final()
+void agregar_final(Lista_t* lista, int dato){
+    Nodo* nuevo = crear_nodo(dato);
+
+    // Lista vacía
+    if(lista->raiz == NULL){
+        lista->raiz = nuevo;
+        return; 
+    }
+
+    // Agregar al final
+    Nodo* temporal = lista->raiz; // temporal apunta a nodo
+    
+    while(temporal != NULL){
+        if(temporal->siguiente == NULL){
+            temporal->siguiente = nuevo;
+            return;
+        }
+
+        temporal = temporal->siguiente;
+    }
+
+}
 
 // TODO: buscar_nodo()
 
@@ -59,7 +81,9 @@ int main(){
     Lista_t* lista = crear_lista();
     agregarInicio(lista, 5);
     agregarInicio(lista, 10);
+    mostrar_lista(lista);
 
+    agregar_final(lista, 100);
     mostrar_lista(lista);
     
     return 0;
