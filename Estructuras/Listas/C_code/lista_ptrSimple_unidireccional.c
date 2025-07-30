@@ -47,7 +47,7 @@ void mostrar_lista(Lista_t* lista){
     printf("\n");
     return;
 }
-// TODO: agregar_final()
+
 void agregar_final(Lista_t* lista, int dato){
     Nodo* nuevo = crear_nodo(dato);
 
@@ -59,7 +59,7 @@ void agregar_final(Lista_t* lista, int dato){
 
     // Agregar al final
     Nodo* temporal = lista->raiz; // temporal apunta a nodo
-    
+        
     while(temporal != NULL){
         if(temporal->siguiente == NULL){
             temporal->siguiente = nuevo;
@@ -75,7 +75,20 @@ void agregar_final(Lista_t* lista, int dato){
 
 // TODO: eliminar_nodo()
 
-// TODO: liberar_memoria
+// TODO: liberar_memoria()
+void liberar_memoria(Lista_t* lista){
+    Nodo* temporal =  lista->raiz;
+
+    while(temporal != NULL){
+        Nodo* actual = temporal;
+
+        temporal = temporal->siguiente;
+        free(actual);
+    }
+
+    free(lista);
+    return;
+}
 
 int main(){
     Lista_t* lista = crear_lista();
@@ -86,5 +99,7 @@ int main(){
     agregar_final(lista, 100);
     mostrar_lista(lista);
     
+    liberar_memoria(lista); 
+    lista =  NULL;
     return 0;
 }
