@@ -35,8 +35,18 @@ void agregarInicio(Lista_t* lista, int dato){
     return;
 }
 
-// TODO: mostrar_lista()
+void mostrar_lista(Lista_t* lista){
+    Nodo* temporal = lista->raiz;
 
+    while(temporal != NULL){
+        printf("Dato:%d ", temporal->dato);
+        
+        temporal =  temporal->siguiente;
+    }
+    
+    printf("\n");
+    return;
+}
 // TODO: agregar_final()
 
 // TODO: buscar_nodo()
@@ -49,6 +59,8 @@ int main(){
     Lista_t* lista = crear_lista();
     agregarInicio(lista, 5);
     agregarInicio(lista, 10);
+
+    mostrar_lista(lista);
     
     return 0;
 }
