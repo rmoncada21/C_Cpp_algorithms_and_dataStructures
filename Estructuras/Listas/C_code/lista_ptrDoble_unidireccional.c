@@ -1,18 +1,21 @@
+/* 
+Lista simple enlazada usando punteros dobles
+*/
 #include <stdlib.h>
 #include <stdio.h>
 
 // Nodo
-struct nodo{
+struct nodo {
     int dato;
     struct nodo* siguiente;
 };
 typedef struct nodo Nodo;
 
 // Crear nodo
-Nodo* crear_nodo(int dato){
+Nodo* crear_nodo(int dato) {
     Nodo* nuevo_nodo = (Nodo*)malloc(sizeof(Nodo));
 
-    if (nuevo_nodo == NULL){
+    if (nuevo_nodo == NULL) {
         printf("No se pudo crear el nodo");
         exit(1);
     }
@@ -24,7 +27,7 @@ Nodo* crear_nodo(int dato){
 }
 
 // Agregar al inicio
-void agregar_inicio(Nodo** lista, int dato){
+void agregar_inicio(Nodo** lista, int dato) {
     Nodo* nodo = crear_nodo(dato);
 
     nodo->siguiente = *lista;
@@ -33,30 +36,31 @@ void agregar_inicio(Nodo** lista, int dato){
 
 // Método para recorrer/mostrar lista
 /*
-Se necesita acceder a todos los nodos, incluyendo el último, que tiene nodo->siguiente == NULL.
+Se necesita acceder a todos los nodos, 
+incluyendo el último, que tiene nodo->siguiente == NULL.
 De usarse temporal->siguiente != NULL, nunca se imprimiría el último nodo.
 */
-void mostrar_lista(Nodo* lista){
+void mostrar_lista(Nodo* lista) {
     Nodo* temporal = lista;
 
-    while(temporal != NULL){
+    while (temporal != NULL) {
         printf("dato: %d - ", temporal->dato);
-        temporal =  temporal->siguiente; // en cada vuelta temporal = NULL
+        temporal =  temporal->siguiente;  // en cada vuelta temporal = NULL
     }
-
 }
 
 // Método para agregar al final
 /*
-No se quiere llegar al último nodo nuevo, se quiere llegar al último nodo actual de la lista.
+No se quiere llegar al último nodo nuevo, 
+se quiere llegar al último nodo actual de la lista.
 Una vez ahí, se hace: temporal->siguiente = nuevo_nodo;
 SE Necesita llegar al penúltimo nodo para cambiar su puntero siguiente.
 */
-void agregar_final(Nodo** lista, int dato){
+void agregar_final(Nodo** lista, int dato) {
     Nodo* nuevo_nodo = crear_nodo(dato);
 
     // Asegurarse que la lista no este vacía
-    if(*lista==NULL){
+    if (*lista == NULL) {
         *lista = nuevo_nodo;
         return;
     }
@@ -64,7 +68,7 @@ void agregar_final(Nodo** lista, int dato){
     // Si la lista no esta vacía
     Nodo* temporal = *lista;
 
-    while(temporal->siguiente != NULL){
+    while (temporal->siguiente != NULL) {
         temporal = temporal->siguiente;
     }
 
@@ -72,71 +76,66 @@ void agregar_final(Nodo** lista, int dato){
 }
 
 // Método para buscar
-Nodo* buscar_nodo(Nodo* lista, int dato){
+Nodo* buscar_nodo(Nodo* lista, int dato) {
     // int valor = 0;
     // int* puntero = &valor;
 
     Nodo* temporal = lista;
 
-    while(temporal != NULL){
-        
-        if(temporal->dato == dato){
-            return temporal;    
+    while (temporal != NULL) {
+        if (temporal->dato == dato) {
+            return temporal;
         }
-
         temporal = temporal->siguiente;
     }
-    
+
     return NULL;
 }
 
 // Método para eliminar nodo
 // Escenarios: primer nodo - ultimo nodo - malcomn
-void eliminar_nodo(Nodo** lista, int dato){
+void eliminar_nodo(Nodo** lista, int dato) {
     Nodo* nodo_actual = *lista;
     Nodo* nodo_anterior = NULL;
-    
-    
-    // while(nodo_actual->siguiente != NULL) <------> No funciona, no entra al utlimo nodo
-    while(nodo_actual != NULL){                    // Si entra al ultimo nodo
-        if(nodo_actual->dato == dato){
+
+    // while(nodo_actual->siguiente!=NULL)<->No entra al utlimo nodo
+    while (nodo_actual != NULL) {  // Si entra al ultimo nodo
+        if (nodo_actual->dato == dato) {
             // Eliminar un nodo al inicio
-            if(nodo_anterior == NULL){
+            if (nodo_anterior == NULL) {
                 printf("\nEntra - Eliminar primer nodo \n");
-                *lista = nodo_actual->siguiente;   
-            }
-            // nodo malcomn
-            // else if (nodo_anterior != NULL && nodo_actual->siguiente != NULL){
-            else if (nodo_actual->siguiente != NULL){ // nodo malcomn
+                *lista = nodo_actual->siguiente;
+            } else if (nodo_actual->siguiente != NULL) {  // nodo malcomn
+                // nodo malcomn
+                // else if(nodo_anterior!=NULL&&nodo_actual->siguiente != NULL){
                 printf("\nEntra - Eliminar malcom \n");
                 nodo_anterior->siguiente = nodo_actual->siguiente;
-            }
-            // ultimo nodo
-            // else if(nodo_anterior != NULL && nodo_actual->siguiente == NULL) {
-            else if(nodo_actual->siguiente == NULL) { // ultimo nodo
+            } else if (nodo_actual->siguiente == NULL) {  // ultimo nodo
+                // ultimo nodo
+                // else if(nodo_anterior!=NULL&&nodo_actual->siguiente==NULL){
                 printf("\nEntra - Eliminar ultimo nodo \n");
                 nodo_anterior->siguiente = NULL;
-            } 
+            }
             free(nodo_actual);
             return;
         }
         nodo_anterior = nodo_actual;
-        nodo_actual = nodo_actual->siguiente; // avanzar al siguiente nodo
+        nodo_actual = nodo_actual->siguiente;  // avanzar al siguiente nodo
     }
-        
-    printf("\nNO SE ENCONTRÓ EL NODO con el dato: %d \n", dato);
 
+    printf("\nNO SE ENCONTRÓ EL NODO con el dato: %d \n", dato);
 }
 
-// TODO: Método para liberar memoria
+// TODO($user): Método para liberar memoria
+
 // Recorrer lista y liberar nodo uno por uno
-void liberar_memoria(Nodo** lista){
+void liberar_memoria(Nodo** lista) {
     Nodo* temporal =  *lista;
 
-    while(temporal != NULL){
+    while (temporal != NULL) {
         Nodo* actual = temporal;
 
-        temporal =  temporal->siguiente; 
+        temporal =  temporal->siguiente;
         free(actual);
         // actual = NULL; no es necesario.Deja de existir al salir del bucle
     }
@@ -145,7 +144,7 @@ void liberar_memoria(Nodo** lista){
     return;
 }
 
-int main(){
+int main() {
     Nodo* lista = NULL;
 
     agregar_inicio(&lista, 0);
@@ -153,20 +152,20 @@ int main(){
     agregar_inicio(&lista, 10);
     agregar_inicio(&lista, 15);
     agregar_final(&lista, 20);
-    mostrar_lista(lista);   
+    mostrar_lista(lista);
     eliminar_nodo(&lista, 15);
     eliminar_nodo(&lista, 55);
     printf("\n");
     // mostrar_lista(lista);
     liberar_memoria(&lista);
     printf("\n");
-    
+
     Nodo* buscar = buscar_nodo(lista, 2);
-    
-    if(buscar){
+
+    if (buscar) {
         printf("Encontrado: %d \n", buscar->dato);
     } else {
-        printf("NULL: No se encontro");
+        printf("NULL: No se encontro \n");
     }
 
     // liberar memoria
