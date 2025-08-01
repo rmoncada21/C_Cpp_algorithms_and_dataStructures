@@ -126,8 +126,6 @@ void eliminar_nodo(Nodo** lista, int dato) {
     printf("\nNO SE ENCONTRÓ EL NODO con el dato: %d \n", dato);
 }
 
-// TODO($user): Método para liberar memoria
-
 // Recorrer lista y liberar nodo uno por uno
 void liberar_memoria(Nodo** lista) {
     Nodo* temporal =  *lista;
