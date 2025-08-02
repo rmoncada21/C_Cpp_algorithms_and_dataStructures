@@ -57,7 +57,6 @@ void desencolar(Nodo** cola) {
     Nodo* anterior =  NULL;
 
     while (temporal != NULL) {
-
         if (temporal->siguiente == NULL) {
             anterior->siguiente = NULL;
             free(temporal);
@@ -82,12 +81,12 @@ void liberar_memoria(Nodo** cola) {
 }
 
 // TODO($user): top() devuleve el primer elemento de la lista sin eliminar
-Nodo* top(Nodo* cola){
+Nodo* top(Nodo* cola) {
     Nodo* temporal = cola;
     Nodo* actual = temporal;
 
-    while (temporal!=NULL) {
-        if (temporal->siguiente==NULL) {
+    while (temporal != NULL) {
+        if (temporal->siguiente == NULL) {
             actual = temporal;
         }
         temporal = temporal->siguiente;
@@ -113,7 +112,7 @@ int main() {
     encolar(&cola, 200);
     mostrar_cola(cola);
     desencolar(&cola);
-    
+
     Nodo* nodo_top = top(cola);
     printf("dato top: %d \n", nodo_top->dato);
 
