@@ -26,6 +26,7 @@ int vacio(Nodo* cola) {
 void encolar(Nodo** cola, int dato) {
     // crear_nodo()
     Nodo* nuevo = (Nodo*)malloc(sizeof(Nodo));
+    printf("Enqueue: %d \n", dato);
     nuevo->dato = dato;  // Inicializar los valores de nodo
     nuevo->siguiente = NULL;  // Inicializar los valores de nodo
 
@@ -50,8 +51,27 @@ void mostrar_cola(Nodo* cola) {
     return;
 }
 
-// desencolar(); elimina un elmento de la lista
+// desencolar(); elimina el primer elemento ingresado
 void desencolar(Nodo** cola) {
+    Nodo* temporal = *cola;
+    Nodo* anterior =  NULL;
+
+    while (temporal != NULL) {
+
+        if (temporal->siguiente == NULL) {
+            anterior->siguiente = NULL;
+            free(temporal);
+            temporal = NULL;
+            return;
+        }
+        anterior = temporal;
+        temporal = temporal->siguiente;
+    }
+    // return;
+}
+
+// liberar_memoria(); elimina un elmento de la lista
+void liberar_memoria(Nodo** cola) {
     while (*cola != NULL) {
         Nodo* temp = NULL;
         temp = *cola;
@@ -72,6 +92,12 @@ int main() {
     mostrar_cola(cola);
     desencolar(&cola);
     mostrar_cola(cola);
-
+    desencolar(&cola);
+    mostrar_cola(cola);
+    desencolar(&cola);
+    mostrar_cola(cola);
+    encolar(&cola, 50);
+    mostrar_cola(cola);
+    liberar_memoria(&cola);
     return 0;
 }
