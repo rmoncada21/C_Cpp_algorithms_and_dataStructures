@@ -82,6 +82,18 @@ void liberar_memoria(Nodo** cola) {
 }
 
 // TODO($user): top() devuleve el primer elemento de la lista sin eliminar
+Nodo* top(Nodo* cola){
+    Nodo* temporal = cola;
+    Nodo* actual = temporal;
+
+    while (temporal!=NULL) {
+        if (temporal->siguiente==NULL) {
+            actual = temporal;
+        }
+        temporal = temporal->siguiente;
+    }
+    return actual;
+}
 
 int main() {
     Nodo* cola = NULL;  // FIFO
@@ -97,7 +109,14 @@ int main() {
     desencolar(&cola);
     mostrar_cola(cola);
     encolar(&cola, 50);
+    encolar(&cola, 100);
+    encolar(&cola, 200);
     mostrar_cola(cola);
+    desencolar(&cola);
+    
+    Nodo* nodo_top = top(cola);
+    printf("dato top: %d \n", nodo_top->dato);
+
     liberar_memoria(&cola);
     return 0;
 }
