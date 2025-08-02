@@ -36,10 +36,12 @@ void encolar(Nodo** cola, int dato) {
 }
 
 // mostrar_cola();
-void mostrar_cola(Nodo* pila) {
+void mostrar_cola(Nodo* cola) {
     Nodo* temporal = NULL;
 
-    temporal = pila;
+    if (vacio(cola)) printf(" Cola vacía \n");
+
+    temporal = cola;
     while (temporal != NULL) {
         printf("Dato:%d - ", temporal->dato);
         temporal = temporal->siguiente;
@@ -48,7 +50,16 @@ void mostrar_cola(Nodo* pila) {
     return;
 }
 
-// TODO($user): desencolar(); elimina un elmento de la lista
+// desencolar(); elimina un elmento de la lista
+void desencolar(Nodo** cola) {
+    while (*cola != NULL) {
+        Nodo* temp = NULL;
+        temp = *cola;
+        *cola = (*cola)->siguiente;
+        free(temp);
+    }
+    return;
+}
 
 // TODO($user): top() devuleve el primer elemento de la lista sin eliminar
 
@@ -59,5 +70,8 @@ int main() {
     encolar(&cola, 30);
     encolar(&cola, 45);
     mostrar_cola(cola);
+    desencolar(&cola);
+    mostrar_cola(cola);
+
     return 0;
 }
