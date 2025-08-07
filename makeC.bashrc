@@ -15,23 +15,43 @@ ROJO_FONDO="\033[41m"
 #   gcc -Wall -Wextra -fsyntax-only archivo.c
 #   gcc -Wall -Wextra archivo.c -o bin/archivo -librerias
 
-_ccompile_autocomplete(){
+_compile_autocomplete(){
     local cur="${COMP_WORDS[COMP_CWORD]}"
     # profundidad 2 para buscar en carpetas del directorio incluyendo bin/
     local options=$(find . -maxdepth 2 -type f -printf "%f\n")
 
     COMPREPLY=( $(compgen -W "${options}" -- "${cur}") )
 }
-complete -F _ccompile_autocomplete ccompile
+complete -F _compile_autocomplete compile
 
-ccompile(){
-    echo -e "${AZUL_FONDO}ccompile en bash ${RESET}"
+_compiler(){
+    local option="$1" # 0 para gcc y 1 para g++
+    local file="$2"
+    local file_no_ext="$3"
+
+    mkdir -p bin
+    if [[ $option == 0 ]]; then
+        echo -e "${AZUL_BRILLANTE}Ccompile $file ${RESET}"
+        echo -e "gcc -Wall -Wextra ${VERDE_BRILLANTE}$file${RESET} -o bin/${CIAN_BRILLANTE}$file_no_ext${RESET}\n"
+        gcc -Wall -Wextra "$file" -o bin/"$file_no_ext"
+    elif [[ $option == 1 ]]; then
+        echo -e "${AZUL_BRILLANTE}CPPcompile $file ${RESET}"
+        echo -e "g++ -Wall -Wextra ${VERDE_BRILLANTE}$file${RESET} -o bin/${CIAN_BRILLANTE}$file_no_ext${RESET}\n"
+        g++ -Wall -Wextra "$file" -o bin/"$file_no_ext"
+    else
+        echo -e "${ROJO_FONDO}Inserte una opción de 0 para gcc y 1 para gpp ${RESET} \n"
+    fi
+}
+
+compile(){
+    echo -e "${AZUL_FONDO}compile en bash ${RESET}"
 
     local file="$1"
     local librerias="$2"
 
     local file_ext="${file##*.}"
-    local file_no_ext="${file%.c}"
+    local Cfile_no_ext="${file%.c}"
+    local Cppfile_no_ext="${file%.cpp}"
 
     # Verificar entrada
     if [[ -z "$file" ]]; then
@@ -40,13 +60,13 @@ ccompile(){
         echo -e "${AZUL_BRILLANTE}./bin/$file${RESET} \n"
         ./bin/"$file"
     elif [[ "$file_ext" == "c" ]]; then
-        # echo "igual a C" 
-        mkdir -p bin
-        echo -e "${AZUL_BRILLANTE}ccompile $file ${RESET}"
-        echo -e "gcc -Wall -Wextra ${VERDE_BRILLANTE}$file${RESET} -o bin/${CIAN_BRILLANTE}$file_no_ext${RESET}\n"
-        gcc -Wall -Wextra "$file" -o bin/"$file_no_ext"
+        # echo "igual a C"
+        _compiler 0 "$file" "$Cfile_no_ext"
+    elif [[ "$file_ext" == "cpp" ]]; then
+        # echo "igual a C"
+        _compiler 1 "$file" "$Cppfile_no_ext"
     else
-        echo -e "${ROJO_FONDO}ccompile no admite este tipo de archivo ${RESET} \n"
+        echo -e "${ROJO_FONDO}compile no admite este tipo de archivo ${RESET} \n"
     fi
 }
 
@@ -68,6 +88,25 @@ _sanitize_autocomplete(){
 }
 complete -F _sanitize_autocomplete sanitize
 
+_sanitize(){
+    local option0="$1" # 0 para clang y 1 para clang++
+    local option="$2"
+    local file="$3"
+    local file_no_ext="$4"
+    
+    mkdir -p bin
+    if [[ $option0 == 0 ]]; then
+        echo -e "${AZUL_BRILLANTE}Clangsanitize $file ${RESET}"
+        echo -e "clang -Wall -Wextra -fsanitize="$option" ${VERDE_BRILLANTE}$file${RESET} -o bin/${CIAN_BRILLANTE}${file_no_ext}_${option}${RESET}\n"
+        clang -Wall -Wextra -fsanitize="$option" "$file" -o bin/"${file_no_ext}_${option}"
+    elif [[ $option0 == 1 ]]; then
+        echo -e "${AZUL_BRILLANTE}Clang++sanitize $file ${RESET}"
+        echo -e "clang -Wall -Wextra -fsanitize="$option" ${VERDE_BRILLANTE}$file${RESET} -o bin/${CIAN_BRILLANTE}${file_no_ext}_${option}${RESET}\n"
+        clang++ -Wall -Wextra -fsanitize="$option" "$file" -o bin/"${file_no_ext}_${option}"
+    else
+        echo -e "${ROJO_FONDO}Inserte una opción de 0 para clang y 1 para clang++ ${RESET} \n"
+    fi
+}
 sanitize(){
     echo -e "${AZUL_FONDO}sanitize en bash ${RESET}"
     local file="$1"
@@ -83,17 +122,16 @@ sanitize(){
         echo -e "${ROJO} Sin archivo de entrada.${RESET}"
     
     elif [[ "$cantidad_arg" == "1" ]]; then
-        ccompile "$file"
+        compile "$file"
     else
         if [[ "$file" == "$file_ext" ]]; then
             echo -e "${AZUL_BRILLANTE}./bin/${file}_${option}${RESET} "
             ./bin/"$file"
         elif [[ "$file_ext" == "c" ]]; then
-            # echo "igual a C" 
-            mkdir -p bin
-            echo -e "${AZUL_BRILLANTE}sanitize $file ${RESET}"
-            echo -e "clang -Wall -Wextra -fsanitize="$option" ${VERDE_BRILLANTE}$file${RESET} -o bin/${CIAN_BRILLANTE}${file_no_ext}_${option}${RESET}\n"
-            clang -Wall -Wextra -fsanitize="$option" "$file" -o bin/"${file_no_ext}_${option}"
+            # echo "igual a C"
+            _sanitize 0 "$option" "$file" "$file_no_ext"
+        elif [[ "$file_ext" == "cpp" ]]; then
+            _sanitize 1 "$option" "$file" "$file_no_ext"
         else
             echo -e "${ROJO_FONDO}sanitize no admite este tipo de archivo ${RESET} \n"
         fi
