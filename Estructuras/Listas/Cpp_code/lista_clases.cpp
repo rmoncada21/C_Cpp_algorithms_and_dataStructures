@@ -32,6 +32,7 @@ class Lista{
         void agregar_final(int dato);
         void eliminar_nodo(int dato);
         void mostrar_lista();
+        void buscar_nodo();
         
         // Destructor
         // ~Lista();
@@ -80,8 +81,37 @@ void Lista::agregar_final(int dato){
 
 // TODO($user): eliminar nodo
 void Lista::eliminar_nodo(int dato){
+    Nodo* temporal = nullptr;
+    temporal = lista;
+    Nodo* anterior = nullptr;
+
+    // Borrar primer nodo
+    if(temporal->siguiente == nullptr){
+        lista = temporal->siguiente;
+        delete temporal;
+        return;
+    }
+    // Borrar nodo malcom
+    while(temporal != nullptr){
+        
+        if(temporal->dato == dato){
+            if (lista == temporal){
+                lista = temporal->siguiente;
+                delete temporal;
+                return;
+            } else {
+                anterior->siguiente = temporal->siguiente;
+                delete temporal;
+                return;
+            }
+        }
+        anterior = temporal;
+        temporal = temporal->siguiente;
+    }
     return;
 }
+
+// TODO($user): Buscar nodo
 
 int main(){
     Lista lista; // objeto lista
@@ -89,15 +119,17 @@ int main(){
     lista.agregar_inicio(6);
     lista.mostrar_lista();
     lista.agregar_final(10);
+    lista.mostrar_lista();
+    lista.eliminar_nodo(10);
+    lista.mostrar_lista();
+    // Lista* lista_ptr = nullptr;
+    // lista_ptr = &lista;
+    // lista_ptr->agregar_inicio(7);
+    // lista_ptr->mostrar_lista();
 
-    Lista* lista_ptr = nullptr;
-    lista_ptr = &lista;
-    lista_ptr->agregar_inicio(7);
-    lista_ptr->mostrar_lista();
-
-    Lista* lista_heap = new Lista();
-    lista_heap->agregar_inicio(100);
-    lista_heap->mostrar_lista();    
+    // Lista* lista_heap = new Lista();
+    // lista_heap->agregar_inicio(100);
+    // lista_heap->mostrar_lista();    
 
     return 0;
 }
