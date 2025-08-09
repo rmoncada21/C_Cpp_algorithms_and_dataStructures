@@ -16,6 +16,7 @@ class Nodo{
         // Constructot
         Nodo(int d, Nodo* s) : dato(d), siguiente(s) {}
         Nodo(int d) : dato(d), siguiente(nullptr) {}
+        int get_dato() {return dato;}
 };
 
 class Lista{
@@ -32,7 +33,7 @@ class Lista{
         void agregar_final(int dato);
         void eliminar_nodo(int dato);
         void mostrar_lista();
-        void buscar_nodo();
+        Nodo* buscar_nodo(int dato);
         
         // Destructor
         // ~Lista();
@@ -112,6 +113,19 @@ void Lista::eliminar_nodo(int dato){
 }
 
 // TODO($user): Buscar nodo
+Nodo* Lista::buscar_nodo(int dato){
+    Nodo* temporal = nullptr;
+    temporal = lista;
+
+    while(temporal != nullptr){
+        if(temporal->dato == dato){
+            return temporal;
+        }
+        temporal = temporal->siguiente;
+    }
+
+    return temporal;
+}
 
 int main(){
     Lista lista; // objeto lista
@@ -129,7 +143,14 @@ int main(){
 
     // Lista* lista_heap = new Lista();
     // lista_heap->agregar_inicio(100);
-    // lista_heap->mostrar_lista();    
+    // lista_heap->mostrar_lista();
 
+    Nodo* buscar = lista.buscar_nodo(6);
+    
+    if(buscar==nullptr){
+        cout<<"No existe"<<endl;
+    } else {
+        cout<<"Nodo con el dato - "<<buscar->get_dato();
+    }
     return 0;
 }
