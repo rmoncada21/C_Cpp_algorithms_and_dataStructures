@@ -37,7 +37,7 @@ class Lista {
     Nodo* buscar_nodo(int dato);
 
     // Destructor
-    // ~Lista();
+    ~Lista();
 };
 
 // Funciones de la clase Lista
@@ -125,6 +125,15 @@ Nodo* Lista::buscar_nodo(int dato) {
     }
 
     return temporal;
+}
+
+Lista::~Lista() {
+    while (lista != nullptr) {
+        Nodo* actual = nullptr;
+        actual = lista;
+        lista = lista->siguiente;
+        delete actual;
+    }
 }
 
 int main() {
