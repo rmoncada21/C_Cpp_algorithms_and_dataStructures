@@ -1,75 +1,76 @@
 #include <iostream>
 
-using namespace std;
+using std::cout;
+using std::endl;
 
 class Nodo{
-    private:
-        int dato;
-        Nodo* siguiente;
-        friend class Cola;
-    public:
-        // constructor
-        Nodo() : siguiente(nullptr) {};
-        Nodo(int d) : dato(d), siguiente(nullptr) {};
-        int get_dato() {return dato;}
+ private:
+    int dato;
+    Nodo* siguiente;
+    friend class Cola;
+ public:
+    // constructor
+    Nodo() : siguiente(nullptr) {}
+    explicit Nodo(int d) : dato(d), siguiente(nullptr) {}
+    int get_dato() {return dato;}
 };
 
-class Cola{
-    private:
-        Nodo* cola;
-    public:
-        // Constructor
-        Cola() : cola(nullptr) {}
+class Cola {
+ private:
+    Nodo* cola;
+ public:
+    // Constructor
+    Cola() : cola(nullptr) {}
 
-        // Métodos
-        int vacio();
-        void encolar(int dato);
-        void mostrar();
-        void desencolar();
-        Nodo* top();
-        void liberar_memoria();
+    // Métodos
+    int vacio();
+    void encolar(int dato);
+    void mostrar();
+    void desencolar();
+    Nodo* top();
+    void liberar_memoria();
 
-        // Destructor
-        // liberar_memoria();
+    // Destructor
+    ~Cola();
 };
 
-int Cola::vacio(){
-    if(cola == nullptr){
+int Cola::vacio() {
+    if (cola == nullptr) {
         return 0;
-    }else{
+    } else {
         return 1;
     }
 }
 
-void Cola::encolar(int dato){
+void Cola::encolar(int dato) {
     Nodo* nodo = new Nodo(dato);
     nodo->siguiente = cola;
     cola = nodo;
     return;
 }
 
-void Cola::mostrar(){
+void Cola::mostrar() {
     Nodo* temporal = nullptr;
     temporal = cola;
-    
-    while(temporal != nullptr){
-        cout<<" Dato: "<<temporal->dato;
+
+    while (temporal != nullptr) {
+        cout << " Dato: " << temporal->dato;
         temporal = temporal->siguiente;
     }
 
-    cout<<endl;
+    cout << endl;
     return;
 }
 
-void Cola::desencolar(){
+void Cola::desencolar() {
     Nodo* actual = nullptr;
     actual = cola;
 
-    while(actual != nullptr){
+    while (actual != nullptr) {
         Nodo* anterior = nullptr;
         anterior = actual;
         actual = actual->siguiente;
-        if (actual->siguiente == nullptr){
+        if (actual->siguiente == nullptr) {
             // cout<<" Ultimo nodo dato: "<<actual->dato<< endl;
             // return;
             anterior->siguiente = nullptr;
@@ -77,15 +78,32 @@ void Cola::desencolar(){
             return;
         }
     }
-
 }
 
-Nodo* Cola::top(){
+// void Cola::desencolar() {
+//     if (cola == nullptr) return; // lista vacía
+
+//     if (cola->siguiente == nullptr) { // solo un nodo
+//         delete cola;
+//         cola = nullptr;
+//         return;
+//     }
+
+//     Nodo* actual = cola;
+//     while (actual->siguiente->siguiente != nullptr) {
+//         actual = actual->siguiente;
+//     }
+//     delete actual->siguiente;
+//     actual->siguiente = nullptr;
+// }
+
+
+Nodo* Cola::top() {
     Nodo* temporal = nullptr;
     temporal = cola;
 
-    while(temporal != nullptr){
-        if(temporal->siguiente == nullptr){
+    while (temporal != nullptr) {
+        if (temporal->siguiente == nullptr) {
             return temporal;
         }
         temporal = temporal->siguiente;
@@ -93,18 +111,22 @@ Nodo* Cola::top(){
     return temporal;
 }
 
-void Cola::liberar_memoria(){
-    while(cola != nullptr){
+void Cola::liberar_memoria() {
+    while (cola != nullptr) {
         Nodo* temporal = nullptr;
         temporal = cola;
-        delete temporal;
         cola = cola->siguiente;
-        return;
+        delete temporal;
+        // return;
     }
 }
 
-int main(){
-    Cola cola; //  objeto
+Cola::~Cola(){
+    liberar_memoria();
+}
+
+int main() {
+    Cola cola;  //  objeto
 
     cola.encolar(10);
     cola.encolar(20);
@@ -121,10 +143,10 @@ int main(){
     cola.desencolar();
     cola.mostrar();
     Nodo* top = cola.top();
-    cout<<" Dato Top: "<<top->get_dato()<<endl;
-    cola.liberar_memoria();
-    if(cola.vacio()){
-        cout<<" Vacío "<<endl;
+    cout << " Dato Top: " << top->get_dato() << endl;
+    if (cola.vacio()) {
+        cout << " Vacío " << endl;
     }
+    // delete top;
     return 0;
 }
