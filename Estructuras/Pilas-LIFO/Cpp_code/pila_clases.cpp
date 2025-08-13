@@ -1,26 +1,27 @@
 #include <iostream>
 
-using namespace std;
+using std::cout;
+using std::endl;
 
-class Nodo{
-    private:
+class Nodo {
+ private:
         int dato;
         Nodo* siguiente;
         friend class Pila;
-    public:
+ public:
     // Constructor
     Nodo() : siguiente(nullptr) {}
-    Nodo(int d) : dato(d), siguiente(nullptr) {}
+    explicit Nodo(int d) : dato(d), siguiente(nullptr) {}
     int get_dato() {return dato;}
 };
 
 class Pila{
-    private:
-        Nodo* pila;
+ private:
+    Nodo* pila;
 
-    public:
+ public:
     // Constructor
-    Pila () : pila(nullptr) {}
+    Pila() : pila(nullptr) {}
 
     // Métodos
     void push(int);
@@ -34,8 +35,8 @@ class Pila{
     ~Pila();
 };
 
-Pila::~Pila(){
-    while(pila != nullptr){
+Pila::~Pila() {
+    while (pila != nullptr) {
         Nodo* actual = pila;
         pila = pila->siguiente;
         delete actual;
@@ -43,8 +44,8 @@ Pila::~Pila(){
     pila = nullptr;
 }
 
-int Pila::vacia(){
-    if(pila == nullptr){
+int Pila::vacia() {
+    if (pila == nullptr) {
         return 1;
     } else {
         return 0;
@@ -52,7 +53,7 @@ int Pila::vacia(){
 }
 
 // Agregar nodos
-void Pila::push(int dato){
+void Pila::push(int dato) {
     Nodo* temporal = new Nodo(dato);
     temporal->siguiente = pila;
     pila = temporal;
@@ -60,25 +61,25 @@ void Pila::push(int dato){
 }
 
 // Mostrar los elementos de la pila
-void Pila::mostrar(){
+void Pila::mostrar() {
     Nodo* temporal = nullptr;
     temporal = pila;
 
-    while(temporal != nullptr){
-        cout<<" Dato: "<<temporal->dato;
+    while (temporal != nullptr) {
+        cout << " Dato: " << temporal->dato;
         temporal = temporal->siguiente;
     }
-    cout<<endl;
+    cout  <<  endl;
     return;
 }
 
 // Eliminar el primer nodo. Sacar el primer dato
-void Pila::pop(){
+void Pila::pop() {
     Nodo* temporal = nullptr;
-    temporal =pila;
+    temporal = pila;
 
-    if(vacia()){
-        cout<<" Pila vacía "<<endl;
+    if (vacia()) {
+        cout << " Pila vacía " << endl;
         return;
     }
 
@@ -87,14 +88,14 @@ void Pila::pop(){
     return;
 }
 
-void Pila::top(){
-    cout<<" Top: "<<pila->dato<<endl;
+void Pila::top() {
+    cout << " Top: " << pila->dato << endl;
     return;
 }
 
-int main(){
+int main() {
     Pila pila;
-    
+
     pila.push(10);
     pila.push(15);
     pila.push(20);
@@ -103,7 +104,7 @@ int main(){
     pila.push(30);
     pila.push(35);
     pila.push(40);
-    pila.mostrar(); 
+    pila.mostrar();
     pila.top();
     pila.pop();
     pila.mostrar();
