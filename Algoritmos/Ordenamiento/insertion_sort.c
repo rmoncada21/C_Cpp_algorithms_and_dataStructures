@@ -7,6 +7,7 @@
 void mostrar_arreglo(int[], int size);
 void randomize_arreglo(int[], int size);
 void insertion_sort(int[], int size);
+void insertion_sort_right_shifted(int[], int size);
 
 int main() {
     int arreglo[SIZE] = {};
@@ -14,7 +15,7 @@ int main() {
     mostrar_arreglo(arreglo, SIZE);
     randomize_arreglo(arreglo, SIZE);
     mostrar_arreglo(arreglo, SIZE);
-    insertion_sort(arreglo, SIZE);
+    insertion_sort_right_shifted(arreglo, SIZE);
     mostrar_arreglo(arreglo, SIZE);
     return 0;
 }
@@ -35,21 +36,16 @@ void randomize_arreglo(int arreglo[], int size) {
     return;
 }
 
-void insertion_sort(int arreglo[], int size) {
+void insertion_sort_right_shifted(int arreglo[], int size) {
     for (int i = 0; i < size-1; i++) {
         int key = arreglo[i+1];
-        printf("key: %d \n", key);
-
-        for (int j = i+1; j >= 0; j--) {
-            int indice = j;
-            if (key < arreglo[j]) {
-                int temporal = arreglo[j+1];
+        int j;
+        for (j = i; j >= 0 && arreglo[j] > key; j--) {
+            // if(arreglo[j]>key){
                 arreglo[j+1] = arreglo[j];
-                arreglo[j] = temporal;
-                mostrar_arreglo(arreglo, size);
-            }
+            // }
         }
-    SALTO;
+
+        arreglo[j+1] = key;
     }
-    return;
 }
